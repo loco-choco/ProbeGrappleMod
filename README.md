@@ -9,7 +9,7 @@ Mod for the Alpha Outer Wilds version 1.2 that adds a graple rope to the game
 
 3. ####  IMPORTANT  Make a backup of the file `Assembly-CSharp.dll` and store somewhere else (it's good to rename it to something like "Assembly-CSharp-original.dll"), because the mod (for now) cannot remove it self from that dll 
 
-4. Run the executable `GrappleModInstaller` **only once** , if no error occure it means that the mod has been succesfully installed, it will create a new file called `Assembly-CSharp-ModLoaded.dll`
+4. Run the executable `GrappleModInstaller` **only once** , if no error occure it means that the mod has been succesfully installed, it will create a new file called `Assembly-CSharp-ModLoaded.dll` (After that there is no problem in deleting either `GrappleModInstaller.exe`,`dnlib.dll` or `dnpatch.dll` from the game's folder)
 
 5. Remember that I asked to backup `Assembly-CSharp.dll`? Now you have to delete it and rename the file `Assembly-CSharp-ModLoaded.dll` to `Assembly-CSharp.dll`
 
@@ -31,5 +31,5 @@ Here is what each button does:
   
   **T** - Makes the rope longer: at each half a second that the button is held, it has an increase of  75 cm
   
-  **Y** - Same as the `T` button, but it decreases the rope size
+  **Y** - Same as the **T** button, but it decreases the rope size
   
