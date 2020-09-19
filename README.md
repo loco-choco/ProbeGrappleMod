@@ -29,7 +29,7 @@ Here is what each button does:
 
   **G** - Places the rope anchor at any aiming surface (you can be at max. 1.5 m away from it) | Retreives the anchor
   
-  **T** - Makes the rope longer, at each half a second that the button is held, it has an increase of  75 cm
+  **T** - Makes the rope longer: at each half a second that the button is held, it has an increase of  75 cm
   
   **Y** - Same as the `T` button, but it decreases the rope size
   
