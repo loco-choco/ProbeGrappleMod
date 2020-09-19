@@ -27,9 +27,10 @@ It gives the player a new equipment to use: a *grappling rope*, it acts like a l
 
 Here is what each button does:
 
-  **G** - Places the rope anchor at any aiming surface (you can be at max. 1.5 m away from it) | Retreives the anchor
+  **G** - Places the rope anchor at any aiming surface (you can be at max. 2 m away from it) | Retreives the anchor
   
-  **T** - Makes the rope longer: at each half a second that the button is held, it has an increase of  75 cm
+  **T** - Makes the rope longer: at each quarter of a second that the button is held, it has an increase of  25 cm
   
-  **Y** - Same as the **T** button, but it decreases the rope size
+  **Y** - Same as the **T** button, but it decreases the rope size (untill it reaches 75 cm)
+
   
