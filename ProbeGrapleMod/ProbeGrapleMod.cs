@@ -184,7 +184,7 @@ namespace PGM
         void StartGrapple(Transform alvo, float ropeLenght, float ropeStrenght = 0.008f, float friction = 0.03125f)
         {
             RaycastHit hit;
-            if (Physics.Raycast(camera.position, camera.forward, out hit, ropeLenght))
+            if (Physics.Raycast(camera.position, camera.forward, out hit, ropeLenght,OWLayerMask.GetPhysicalMask()))
             {
                 Vector3 grapplePointPosition = hit.point;
 
