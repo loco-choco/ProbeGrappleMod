@@ -17,7 +17,7 @@ Mod for the Alpha Outer Wilds version 1.2 that adds a graple rope to the game
 
 ### How do I uninstall it?
 
-Simple, you just need to delete the modded `Assembly-CSharp.dll`, replace it with the backup you made when installing it and raname the file back to `Assembly-CSharp.dll`
+Simple, you just need to delete the modded `Assembly-CSharp.dll` (and,if you wish, all the other files that you placed from `Mod Instaling Kit` ), replace it with the backup you made when installing it and raname the file back to `Assembly-CSharp.dll`
 
 ### What it does?
 
