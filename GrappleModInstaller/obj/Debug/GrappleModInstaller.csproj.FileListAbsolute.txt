@@ -11,5 +11,12 @@ C:\Users\ivanr\Desktop\Modding\Mods with 'LOADER'\ProbeGrapleMod\GrappleModInsta
 C:\Users\ivanr\Desktop\Modding\Mods with 'LOADER'\ProbeGrapleMod\GrappleModInstaller\obj\Debug\GrappleModInstaller.csproj.CopyComplete
 C:\Users\ivanr\Desktop\Modding\Mods with 'LOADER'\ProbeGrapleMod\GrappleModInstaller\obj\Debug\GrappleModInstaller.exe
 C:\Users\ivanr\Desktop\Modding\Mods with 'LOADER'\ProbeGrapleMod\GrappleModInstaller\obj\Debug\GrappleModInstaller.pdb
-C:\Users\ivanr\Desktop\Modding\Mods with 'LOADER'\ProbeGrapleMod\GrappleModInstaller\bin\Debug\Assembly-CSharp.dll
 C:\Users\ivanr\Desktop\Modding\Mods with 'LOADER'\ProbeGrapleMod\GrappleModInstaller\obj\Debug\GrappleModInstaller.csprojAssemblyReference.cache
+C:\Users\ivanr\Desktop\Modding\Mods with 'LOADER'\ProbeGrapleMod\GrappleModInstaller\bin\Debug\Assembly-CSharp - Copia.dll
+C:\Users\ivanr\Desktop\Modding\Mods with 'LOADER'\ProbeGrapleMod\GrappleModInstaller\bin\Debug\Assembly-CSharp-firstpass.dll
+C:\Users\ivanr\Desktop\Modding\Mods with 'LOADER'\ProbeGrapleMod\GrappleModInstaller\bin\Debug\Assembly-UnityScript-firstpass.dll
+C:\Users\ivanr\Desktop\Modding\Mods with 'LOADER'\ProbeGrapleMod\GrappleModInstaller\bin\Debug\Mono.Security.dll
+C:\Users\ivanr\Desktop\Modding\Mods with 'LOADER'\ProbeGrapleMod\GrappleModInstaller\bin\Debug\DecalSystem.Runtime.dll
+C:\Users\ivanr\Desktop\Modding\Mods with 'LOADER'\ProbeGrapleMod\GrappleModInstaller\bin\Debug\Boo.Lang.dll
+C:\Users\ivanr\Desktop\Modding\Mods with 'LOADER'\ProbeGrapleMod\GrappleModInstaller\bin\Debug\UnityScript.Lang.dll
+C:\Users\ivanr\Desktop\Modding\Mods with 'LOADER'\ProbeGrapleMod\GrappleModInstaller\obj\Debug\GrappleModInstaller.exe.config

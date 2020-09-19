@@ -40,23 +40,22 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Assembly-CSharp">
-      <HintPath>..\..\..\..\OuterWilds Alpha 1_2\Assembly-CSharp.dll</HintPath>
+    <ProjectReference Include="..\ProbeGrapleMod\PGM.csproj">
+      <Project>{03e38356-ffe8-4fce-baa5-c09d4e2183e7}</Project>
+      <Name>PGM</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Assembly-CSharp - Copia">
+      <HintPath>..\..\..\..\OuterWilds Alpha 1_2\OuterWilds_Alpha_1_2_Data\Managed\Assembly-CSharp - Copia.dll</HintPath>
     </Reference>
-    <Reference Include="dnlib, Version=1.6.0.0, Culture=neutral, PublicKeyToken=50e96378b6e77999, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\dnpatch-master\dnpatch\bin\Debug\dnlib.dll</HintPath>
+    <Reference Include="dnlib">
+      <HintPath>..\..\..\BranchRepo\dnpatch\dnpatch\bin\Debug\dnlib.dll</HintPath>
     </Reference>
-    <Reference Include="dnpatch, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\dnpatch-master\dnpatch\bin\Debug\dnpatch.dll</HintPath>
+    <Reference Include="dnpatch">
+      <HintPath>..\..\..\BranchRepo\dnpatch\dnpatch\bin\Debug\dnpatch.dll</HintPath>
     </Reference>
-    <Reference Include="ProbeGrapleMod, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\ProbeGrapleMod\bin\Debug\ProbeGrapleMod.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="UnityEngine">
       <HintPath>..\..\..\..\OuterWilds Alpha 1_2\OuterWilds_Alpha_1_2_Data\Managed\UnityEngine.dll</HintPath>
     </Reference>
   </ItemGroup>

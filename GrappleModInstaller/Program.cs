@@ -17,17 +17,17 @@ namespace GrappleModInstaller
             
 
            
-                Console.WriteLine("Instalando o mod: GrappleMod");
+                Console.WriteLine("Instalando o mod | Instaling the mod: GrappleMod");
 
-                Patcher p = new Patcher("teste.dll");//Colocar o nome do DLL do jogo
+                Patcher p = new Patcher("Assembly-CSharp.dll");
 
                 Instruction[] opcodesGrappleModInnit = {
 
-                Instruction.Create(OpCodes.Ldstr   ,  "ProbeGrapleMod foi iniciado"), // ldarg.0
+                Instruction.Create(OpCodes.Ldstr   ,  "ProbeGrapleMod foi iniciado | was started"), 
 
                 Instruction.Create(OpCodes.Call,p.BuildCall(typeof(UnityEngine.Debug), "Log" , typeof(void) , new[]{ typeof(object) })),
 
-                 Instruction.Create(OpCodes.Ldstr   ,  "PlayerBody"), // ldarg.0
+                 Instruction.Create(OpCodes.Ldstr   ,  "PlayerBody"), 
 
                 Instruction.Create(OpCodes.Call, p.BuildCall(typeof(PGM.ProbeGrapleMod), "ModInnit", typeof(void), new[] { typeof(string) }))
 
@@ -47,39 +47,41 @@ namespace GrappleModInstaller
                 
                 };
 
-                //Descobrir uma maneira dessas instruções serem colocadas e não tomarem o lugar
-                Target target = new Target()
-                {
-                    Namespace = "",
-                    Class = "PlayerBody",
-                    Method = "Awake",
-                    Instructions = opcodesGrappleModInnit,
-                    Indices = indicesDoMod
+            
+            Target target = new Target()
+            {
+                Namespace = "",
+                Class = "PlayerBody",
+                Method = "Awake",
+                Instructions = opcodesGrappleModInnit,
+                Indices = indicesDoMod,
+                InsertInstructions = true
+
                 };
 
                 
 
             try
             {
-                p.Patch(target, true);
+                p.Patch(target);
 
-                Console.WriteLine("Patching foi um sucesso, salvando agora. . .");
+                Console.WriteLine("Patching foi um sucesso, salvando agora. . . | Patching was a succes, saving now. . .");
             }
             catch (Exception exp)
             {
-                Console.WriteLine($"Erro no Patching: {exp}");
+                Console.WriteLine($"Erro no Patching | Patching error: {exp}");
             }
 
 
             try
             {
                 p.Save("Assembly-CSharp-ModLoaded.dll");
-                Console.WriteLine("Mod Salvado com Sucesso :: )");
+                Console.WriteLine("Mod Salvado com Sucesso :: ) | Mod saving was succesfull :: )");
             }
             catch (Exception exp)
             {
-                Console.WriteLine($"Erro no Saving: {exp}");
-                Console.WriteLine("O mod não foi possivel de ser instalado");
+                Console.WriteLine($"Erro no Saving | Saving error: {exp}");
+                Console.WriteLine("O mod não foi possivel de ser instalado | It wasn't possible to save the mod");
             }
 
             
