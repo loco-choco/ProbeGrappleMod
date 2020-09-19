@@ -66,6 +66,10 @@ namespace PGM
 
             aparenciaDoTexto = new GUIStyle();
             aparenciaDoTexto.fontSize = 72;
+            aparenciaDoTexto.normal.textColor = Color.gray;
+
+            //Talvez n seja necessario
+            aparenciaDoTexto.font.material = new Material(Shader.Find("Diffuse"));
             aparenciaDoTexto.font.material.color = Color.gray;
         }
 
@@ -109,8 +113,7 @@ namespace PGM
         float tempoPassado = 0f;
         float tempoParaAlterar = 0.25f;
 
-        float tempoDesdeOUltimoTexto = 1f;
-        float tempoDoTexto = 0.25f;
+        
 
         void Update()
         {
@@ -127,7 +130,7 @@ namespace PGM
                 else
                 {
                     Debug.Log("Sart grapling");
-                    StartGrapple(player, 0.75f * 2);
+                    StartGrapple(player, 2f);
                 }
             }
 
@@ -140,7 +143,7 @@ namespace PGM
 
                 if (Input.GetKey(KeyCode.T))
                 {
-                    grapleRadius += 0.75f;
+                    grapleRadius += 0.25f;
                     Debug.Log("Crescendo");
                     tempoPassado = 0f;
                     tempoDesdeOUltimoTexto = 0f;
@@ -148,7 +151,7 @@ namespace PGM
 
                 if (Input.GetKey(KeyCode.Y) && grapleRadius >= 0.75f)
                 {
-                    grapleRadius -= 0.75f;
+                    grapleRadius -= 0.25f;
                     Debug.Log("Diminuindo");
                     tempoPassado = 0f;
                     tempoDesdeOUltimoTexto = 0f;
@@ -163,11 +166,12 @@ namespace PGM
             DrawRope();
         }
 
-
+        float tempoDesdeOUltimoTexto = 0f;
+        float tempoDoTexto = 3f;
 
         void OnGUI()
         {
-            if (tempoDesdeOUltimoTexto <= tempoDoTexto)
+            if (tempoDesdeOUltimoTexto <= tempoDoTexto && isGrappling)
                 GUI.Box(new Rect(559f, 519f, 680f, 93f), $"{grapleRadius} m", aparenciaDoTexto);
 
             tempoDesdeOUltimoTexto += Time.deltaTime;

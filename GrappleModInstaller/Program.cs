@@ -65,7 +65,7 @@ namespace GrappleModInstaller
             {
                 p.Patch(target);
 
-                Console.WriteLine("Patching foi um sucesso, salvando agora. . . | Patching was a succes, saving now. . .");
+                Console.WriteLine("Patching foi um sucesso, salvando agora. . . | Patching was a success, saving now. . .");
             }
             catch (Exception exp)
             {
@@ -76,7 +76,7 @@ namespace GrappleModInstaller
             try
             {
                 p.Save("Assembly-CSharp-ModLoaded.dll");
-                Console.WriteLine("Mod Salvado com Sucesso :: ) | Mod saving was succesfull :: )");
+                Console.WriteLine("Mod Salvado com Sucesso :: ) | Mod saving was successfull :: )");
             }
             catch (Exception exp)
             {
