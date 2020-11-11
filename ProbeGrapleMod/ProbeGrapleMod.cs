@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using UnityEngine;
+﻿using UnityEngine;
+using IMOWAAnotations;
 
 namespace PGM
 {
@@ -18,7 +16,7 @@ namespace PGM
         private Color lineColor;
 
         public Transform player;
-        public Transform camera;
+        public Transform modCamera;
         public Transform ship;
 
 
@@ -32,7 +30,7 @@ namespace PGM
         GUIStyle aparenciaDoTexto;
 
 
-
+        [IMOWAModInnit("PlayerBody", "Awake", modName = "Probe Graple Mod")]
         public static void ModInnit(string porOndeTaInicializando)
         {
 
@@ -45,7 +43,7 @@ namespace PGM
         void Start()
         {
 
-            camera = gameObject.FindWithRequiredTag("MainCamera").camera.transform;
+            modCamera = gameObject.FindWithRequiredTag("MainCamera").camera.transform;
             player = gameObject.FindWithRequiredTag("Player").transform;
             ship = gameObject.FindWithRequiredTag("Ship").transform;
 
@@ -64,13 +62,17 @@ namespace PGM
             lr.SetVertexCount(0);
 
 
-            aparenciaDoTexto = new GUIStyle();
-            aparenciaDoTexto.fontSize = 72;
+            aparenciaDoTexto = new GUIStyle
+            {
+                fontSize = 72
+            };
             aparenciaDoTexto.normal.textColor = Color.gray;
 
             //Talvez n seja necessario
-            aparenciaDoTexto.font.material = new Material(Shader.Find("Diffuse"));
-            aparenciaDoTexto.font.material.color = Color.gray;
+            aparenciaDoTexto.font.material = new Material(Shader.Find("Diffuse"))
+            {
+                color = Color.gray
+            };
         }
 
 
@@ -111,7 +113,7 @@ namespace PGM
         }
 
         float tempoPassado = 0f;
-        float tempoParaAlterar = 0.25f;
+        readonly float tempoParaAlterar = 0.25f;
 
         
 
@@ -167,7 +169,7 @@ namespace PGM
         }
 
         float tempoDesdeOUltimoTexto = 0f;
-        float tempoDoTexto = 3f;
+        readonly float tempoDoTexto = 3f;
 
         void OnGUI()
         {
@@ -183,8 +185,7 @@ namespace PGM
         /// 
         void StartGrapple(Transform alvo, float ropeLenght, float ropeStrenght = 0.008f, float friction = 0.03125f)
         {
-            RaycastHit hit;
-            if (Physics.Raycast(camera.position, camera.forward, out hit, ropeLenght,OWLayerMask.GetPhysicalMask()))
+            if (Physics.Raycast(modCamera.position, modCamera.forward, out RaycastHit hit, ropeLenght, OWLayerMask.GetPhysicalMask()))
             {
                 Vector3 grapplePointPosition = hit.point;
 
