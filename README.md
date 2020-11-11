@@ -4,7 +4,7 @@ Mod for the Alpha Outer Wilds version 1.2 that adds a graple rope to the game
 ### How do I install it?
 
 0. Follow instalation of [DIMOWA](https://github.com/ShoosGun/DIMOWA) if you haven't already. 
-1. Download the from one of the [releases](https://github.com/ShoosGun/ProbeGrapleMod/releases).
+1. Download the dll from one of the [releases](https://github.com/ShoosGun/ProbeGrapleMod/releases).
 2. Place the dll from the mod in the `mods` folder.
 3. Run the installer.
 
