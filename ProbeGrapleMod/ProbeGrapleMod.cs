@@ -1,15 +1,15 @@
 ﻿using UnityEngine;
-using IMOWAAnotations;
+using CAMOWA;
+using System.Collections;
+using System;
 
 namespace PGM
 {
 
     public class ProbeGrapleMod : MonoBehaviour
     {
-
         private GameObject grapplePoint;
         public LayerMask whatIsGrappleable;
-
 
         public LineRenderer lr;
         private float lineThicness;
@@ -19,36 +19,65 @@ namespace PGM
         public Transform modCamera;
         public Transform ship;
 
+        //Assets importados
+        private AudioClip throwClip;
+        private Mesh hookMesh;
+        private AudioSource wavPlayer;
 
+        public bool IsGrappling { get; set; }
 
-        private bool isGrappling;
-        private float grapleRadius;
+        private float grapleRadius = 5f;
         private float elasticConstant;
         private float frictionConstant;
         private float originalLenght;
 
         GUIStyle aparenciaDoTexto;
-
-
-        [IMOWAModInnit("PlayerBody", "Awake", modName = "Probe Graple Mod")]
+        
+        [IMOWAModInnit("Probe Graple Mod", 1, 2)]
         public static void ModInnit(string porOndeTaInicializando)
         {
-
             Debug.Log("ProbeGrapleMod foi iniciado em "+ porOndeTaInicializando);
             GameObject.FindGameObjectsWithTag("Player")[0].AddComponent<ProbeGrapleMod>();
             Debug.Log("O script do mod foi colocado no 'Player' ");
+        }
 
+
+        private IEnumerator ImportAllFiles()
+        {
+            WWW wwwImportThrowClip = new WWW(WWWHelper.RelativePathToUrl(@"PGMAssets\Fuoooo.wav"));
+            yield return wwwImportThrowClip;
+            throwClip = wwwImportThrowClip.audioClip;
+            yield break;
         }
 
         void Start()
         {
+            WWWHelper wwwHelper = new WWWHelper();
+            StartCoroutine(ImportAllFiles());
+            ObjImporter objImporter = new ObjImporter();
+            //        \OuterWilds_Alpha_1_2_Data\OuterWilds_Alpha_1_2_Data\Assets\PGMAssets
+            hookMesh = objImporter.ImportFile(@"PGMAssets\grapleHookModel.obj");
 
             modCamera = gameObject.FindWithRequiredTag("MainCamera").camera.transform;
             player = gameObject.FindWithRequiredTag("Player").transform;
             ship = gameObject.FindWithRequiredTag("Ship").transform;
+            
+            try
+            {
+                wavPlayer = gameObject.FindWithRequiredTag("Player").GetComponent<AudioSource>();
+            }
+            catch(Exception e)
+            {
+                Debug.Log($"Erro ao pegar o AudioSource do player: {e}");
+            }
+            if(wavPlayer == null)
+            {
+                wavPlayer = gameObject.FindWithRequiredTag("Player").AddComponent<AudioSource>();
+            }
+            Debug.Log($"O wav player é {wavPlayer != null}");
 
-            isGrappling = false;
 
+            IsGrappling = false;
 
             lr = player.gameObject.AddComponent<LineRenderer>();
 
@@ -61,29 +90,33 @@ namespace PGM
             lr.material.color = lineColor;
             lr.SetVertexCount(0);
 
-
+            
             aparenciaDoTexto = new GUIStyle
             {
                 fontSize = 72
             };
+            
             aparenciaDoTexto.normal.textColor = Color.gray;
 
-            //Talvez n seja necessario
-            aparenciaDoTexto.font.material = new Material(Shader.Find("Diffuse"))
-            {
-                color = Color.gray
-            };
+            
         }
-
-
+        bool ropeBroke = false;
         void FixedUpdate()
         {
-            //Logica da física de 'esfera'
-            if (isGrappling)
+            if (grapplePoint != null)
             {
 
                 float playerDistance = (player.position - grapplePoint.transform.position).magnitude;
-                if (grapleRadius <= playerDistance)
+
+                if(playerDistance >= grapleRadius + 25f)
+                {
+                    Debug.Log("A corda se partiu");
+                    StopGrapple();
+                    lr.SetWidth(lineThicness, lineThicness);
+                    ropeBroke = true;
+                }
+
+                if (grapleRadius <= playerDistance && !ropeBroke)
                 {
                     //Física
 
@@ -92,23 +125,21 @@ namespace PGM
                     Vector3 forcaElastica = (playerDistance - grapleRadius) * elasticConstant * direcao.normalized * 0.80f;//o 80% é energia perdida em calor etc...
 
                     Vector3 forcaDeFriccao = (grapplePoint.rigidbody.velocity - player.gameObject.rigidbody.velocity) * frictionConstant;
+                    
+                    if(IsGrappling)
+                        player.gameObject.GetAttachedOWRigidbody().AddForce(forcaElastica + forcaDeFriccao); //Alguem me ajuda plssss
 
-                    player.gameObject.GetAttachedOWRigidbody().AddForce(forcaElastica + forcaDeFriccao); //Alguem me ajuda plssss
+                    else
+                        grapplePoint.gameObject.GetAttachedOWRigidbody().AddForce( -(forcaElastica + forcaDeFriccao/3)  );
 
                     //Visual
                     lr.SetWidth(lineThicness * grapleRadius / playerDistance, lineThicness * grapleRadius / playerDistance);
 
                     lr.material.color = lineColor - new Color(0f, 1 - playerDistance / grapleRadius, 0f);
                 }
-
                 else
-                {
                     lr.SetWidth(lineThicness, lineThicness);
-                }
-
-
-
-
+                
             }
         }
 
@@ -121,45 +152,39 @@ namespace PGM
         {
             if (Input.GetKeyDown(KeyCode.G))
             {
-                if (isGrappling)
+                if (grapplePoint != null)
                 {
-                    Debug.Log("Stop grapling");
                     StopGrapple();
 
                     lr.SetWidth(lineThicness, lineThicness);
 
                 }
-                else
+                else if(grapplePoint == null)
                 {
-                    Debug.Log("Sart grapling");
-                    StartGrapple(player, 2f);
+                    ropeBroke = false;
+                    StartGrapple(player, grapleRadius);
                 }
             }
-
+            
 
             tempoPassado += Time.deltaTime;
 
-            if (isGrappling && tempoPassado >= tempoParaAlterar)
+            if (tempoPassado >= tempoParaAlterar)
             {
-                Debug.Log("Pronto para uzar");
-
-                if (Input.GetKey(KeyCode.T))
+                if (Input.GetKey(KeyCode.T) && grapleRadius < 100f)
                 {
                     grapleRadius += 0.25f;
-                    Debug.Log("Crescendo");
                     tempoPassado = 0f;
                     tempoDesdeOUltimoTexto = 0f;
+                    showGUI = true;
                 }
-
-                if (Input.GetKey(KeyCode.Y) && grapleRadius >= 0.75f)
+                else if (Input.GetKey(KeyCode.Y) && grapleRadius >= 0.75f)
                 {
                     grapleRadius -= 0.25f;
-                    Debug.Log("Diminuindo");
                     tempoPassado = 0f;
                     tempoDesdeOUltimoTexto = 0f;
+                    showGUI = true;
                 }
-
-
             }
         }
 
@@ -170,79 +195,58 @@ namespace PGM
 
         float tempoDesdeOUltimoTexto = 0f;
         readonly float tempoDoTexto = 3f;
-
+        bool showGUI = false;
         void OnGUI()
         {
-            if (tempoDesdeOUltimoTexto <= tempoDoTexto && isGrappling)
+            if (tempoDesdeOUltimoTexto <= tempoDoTexto && showGUI)
                 GUI.Box(new Rect(559f, 519f, 680f, 93f), $"{grapleRadius} m", aparenciaDoTexto);
+            else
+                showGUI = false;
 
             tempoDesdeOUltimoTexto += Time.deltaTime;
         }
-
-        /// <summary>
-        /// Call whenever we want to start a grapple
-        /// </summary>
-        /// 
-        void StartGrapple(Transform alvo, float ropeLenght, float ropeStrenght = 0.008f, float friction = 0.03125f)
+        
+        void StartGrapple(Transform alvo, float ropeLenght, float ropeStrenght = 0.008f, float friction = 0.00651f)
         {
-            if (Physics.Raycast(modCamera.position, modCamera.forward, out RaycastHit hit, ropeLenght, OWLayerMask.GetPhysicalMask()))
-            {
-                Vector3 grapplePointPosition = hit.point;
+            grapplePoint = BasicOWRigidbodyGO.SimplestBoxOWObject(Vector3.one);
+            grapplePoint.rigidbody.mass = 0.001f;
+            grapplePoint.transform.parent = transform.root;
+            grapplePoint.AddComponent<HookAnchor>().HookManager = gameObject.GetComponent<ProbeGrapleMod>();
+            grapplePoint.transform.name = "grapplingPointMod";
+            grapplePoint.GetComponent<MeshFilter>().mesh = hookMesh;
+            grapplePoint.renderer.material.color = new Color(0.25f, 0.25f, 0.25f,1f);
 
-                grapplePoint = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            grapleRadius = ropeLenght;
+            originalLenght = ropeLenght;
+            elasticConstant = ropeStrenght;
+            frictionConstant = friction;
 
-                grapplePoint.collider.enabled = false;
-
-                grapplePoint.transform.name = "grapplingPointMod";
-                grapplePoint.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
-                grapplePoint.renderer.material.color = new Color(72f, 45f, 128f);
-
-
-                grapplePoint.transform.position = grapplePointPosition;
-                grapplePoint.transform.parent = hit.transform;
-
-                grapplePoint.AddComponent<Rigidbody>();
-                grapplePoint.rigidbody.isKinematic = true;
-
-                grapleRadius = ropeLenght;
-                originalLenght = ropeLenght;
-
-                elasticConstant = ropeStrenght;
-
-                frictionConstant = friction;
-
-                isGrappling = true;
-
-
-                lr.SetVertexCount(2);
-            }
+            LaunchHook(grapplePoint, modCamera.forward*5, modCamera.transform.position + modCamera.forward );
+            lr.SetVertexCount(2);
+            wavPlayer.PlayOneShot(throwClip,0.7f);
+           
         }
 
-
-        /// <summary>
-        /// Call whenever we want to stop a grapple
-        /// </summary>
         void StopGrapple()
         {
             lr.SetVertexCount(0);
+            for(int i = 0; i < grapplePoint.transform.childCount; i++)
+            {
+                Destroy(grapplePoint.transform.GetChild(i).gameObject);
+            }
             Destroy(grapplePoint);
-            isGrappling = false;
-            // Destroy(joint);
-
+            IsGrappling = false;
         }
 
         private Vector3 currentGrapplePosition;
 
         void DrawRope()
         {
-            if (!isGrappling) return;
+            if (grapplePoint == null) return;
 
             currentGrapplePosition = Vector3.Lerp(currentGrapplePosition, grapplePoint.transform.position, Time.deltaTime * 32f);
-
             lr.SetPosition(0, player.position);
             lr.SetPosition(1, currentGrapplePosition);
-
-
         }
 
         public Vector3 GetGrapplePoint()
@@ -250,6 +254,11 @@ namespace PGM
             return grapplePoint.transform.position;
         }
 
+        private void LaunchHook(GameObject hook, Vector3 velocityVector, Vector3 globalPosition)
+        {
+            hook.transform.position = globalPosition;
+            hook.GetAttachedOWRigidbody().AddLocalVelocityChange(velocityVector);
+        }
 
     }
 }
