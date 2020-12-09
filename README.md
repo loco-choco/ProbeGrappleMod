@@ -1,4 +1,4 @@
-# Probe Graple Mod v.1.0.0
+# Probe Grap(p)le Mod v.1.0.0
 Mod for the Alpha Outer Wilds version 1.2 that adds a graple rope to the game
 
 ### How do I install it?
