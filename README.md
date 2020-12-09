@@ -31,13 +31,13 @@ Here is what each button does:
   * The rope *breaks* when you are 25m + its length away from it
   
   ### Known bugs
-  - [ ] NullReferenceException
-  at (wrapper managed-to-native) UnityEngine.Rigidbody:INTERNAL_get_worldCenterOfMass
-  - [ ] NullReferenceException
-  at (wrapper managed-to-native) UnityEngine.Rigidbody:INTERNAL_get_worldCenterOfMass
-  - [ ] NullReferenceException
-  at (wrapper managed-to-native) UnityEngine.Rigidbody:INTERNAL_get_worldCenterOfMass
-  - [ ] NullReferenceException
-  at (wrapper managed-to-native) UnityEngine.Rigidbody:INTERNAL_get_worldCenterOfMass
-  - [ ] NullReferenceException
-  at (wrapper managed-to-native) UnityEngine.Rigidbody:INTERNAL_get_worldCenterOfMass
+  - [ ] *NullReferenceException
+  at (wrapper managed-to-native) UnityEngine.Rigidbody:INTERNAL_get_worldCenterOfMass*
+  - [ ] *NullReferenceException
+  at (wrapper managed-to-native) UnityEngine.Rigidbody:INTERNAL_get_worldCenterOfMass*
+  - [ ] *NullReferenceException
+  at (wrapper managed-to-native) UnityEngine.Rigidbody:INTERNAL_get_worldCenterOfMass*
+  - [ ] *NullReferenceException
+  at (wrapper managed-to-native) UnityEngine.Rigidbody:INTERNAL_get_worldCenterOfMass*
+  - [ ] *NullReferenceException
+  at (wrapper managed-to-native) UnityEngine.Rigidbody:INTERNAL_get_worldCenterOfMass*
