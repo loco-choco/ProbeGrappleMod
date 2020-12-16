@@ -44,6 +44,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\DIMOWA\Instalador\CAMOWA.dll</HintPath>
     </Reference>
+    <Reference Include="DIMOWAModLoader">
+      <HintPath>..\..\DIMOWA\Instalador\DIMOWAModLoader.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\OuterWilds Alpha 1_2\OuterWilds_Alpha_1_2_Data\Managed\UnityEngine.dll</HintPath>

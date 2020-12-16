@@ -9,7 +9,7 @@ namespace PGM
 
         private float launchTime;
 
-        
+        private Vector3 hookScale = Vector3.one * 0.4f;
 
         private void Start()
         {
@@ -17,7 +17,7 @@ namespace PGM
             
             launchTime = Time.time;
             
-            transform.localScale = new Vector3(0.4f,0.4f,0.4f);
+            transform.localScale = hookScale;
         }
         
         private void AttachToObject(GameObject hitObject, Vector3 hitNormal)
@@ -27,7 +27,8 @@ namespace PGM
 
             hookBody.MakeKinematic();
 
-            transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
+            HookManager.Debugger.SendLog($"Tamanho do objeto (localmente) :{hitObject.transform.localScale}");
+            transform.localScale = CorrectScale( hitObject.transform.localScale, hookScale);
 
             foreach (Collider collider in hookBody.GetComponentsInChildren<Collider>())
             {
@@ -53,6 +54,10 @@ namespace PGM
                 GameObject gameObject = OWPhysics.GetOtherCollider(this, collision).gameObject;
                 AttachToObject(gameObject, collision.contacts[0].normal);
             }
+        }
+        private Vector3 CorrectScale(Vector3 from, Vector3 to)
+        {
+            return new Vector3(to.x / from.x, to.y / from.y, to.z / from.z);
         }
     }
 }

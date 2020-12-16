@@ -2,12 +2,15 @@
 using CAMOWA;
 using System.Collections;
 using System;
+using DIMOWAModLoader;
 
 namespace PGM
 {
 
     public class ProbeGrapleMod : MonoBehaviour
     {
+        public ClientDebuggerSide Debugger { get; private set; }
+
         private GameObject grapplePoint;
         public LayerMask whatIsGrappleable;
 
@@ -52,6 +55,8 @@ namespace PGM
 
         void Start()
         {
+            Debugger = GameObject.Find("DIMOWALevelLoaderHandler").GetComponent<ClientDebuggerSide>();
+
             WWWHelper wwwHelper = new WWWHelper();
             StartCoroutine(ImportAllFiles());
             ObjImporter objImporter = new ObjImporter();
@@ -68,7 +73,7 @@ namespace PGM
             }
             catch(Exception e)
             {
-                Debug.Log($"Erro ao pegar o AudioSource do player: {e}");
+                Debugger.SendLog($"Erro ao pegar o AudioSource do player: {e}");
             }
             if(wavPlayer == null)
             {
@@ -110,7 +115,7 @@ namespace PGM
 
                 if(playerDistance >= grapleRadius + 25f)
                 {
-                    Debug.Log("A corda se partiu");
+                    Debugger.SendLog("A corda se partiu");
                     StopGrapple();
                     lr.SetWidth(lineThicness, lineThicness);
                     ropeBroke = true;
@@ -259,6 +264,5 @@ namespace PGM
             hook.transform.position = globalPosition;
             hook.GetAttachedOWRigidbody().AddLocalVelocityChange(velocityVector);
         }
-
     }
 }
