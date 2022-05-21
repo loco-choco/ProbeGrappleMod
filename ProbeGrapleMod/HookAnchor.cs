@@ -27,7 +27,7 @@ namespace PGM
 
             hookBody.MakeKinematic();
 
-            HookManager.Debugger.SendLog($"Tamanho do objeto (localmente) :{hitObject.transform.localScale}");
+            Debug.Log($"Object size (locally) :{hitObject.transform.localScale}");
             transform.localScale = CorrectScale( hitObject.transform.localScale, hookScale);
 
             foreach (Collider collider in hookBody.GetComponentsInChildren<Collider>())
