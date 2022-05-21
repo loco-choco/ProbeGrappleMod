@@ -9,9 +9,11 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>PGM</RootNamespace>
     <AssemblyName>ProbeGrapleMod</AssemblyName>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <ModName>Locochoco.ProbeGrapple</ModName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -27,7 +29,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;CODE_ANALYSIS;OUTER_WILDS_ALPHA</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -37,20 +39,49 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Assembly-CSharp - Copia">
-      <HintPath>..\..\..\..\OuterWilds Alpha 1_2\OuterWilds_Alpha_1_2_Data\Managed\Assembly-CSharp - Copia.dll</HintPath>
+    <Reference Include="0Harmony">
+      <HintPath>..\..\..\..\OuterWilds Alpha 1_2\BepInEx\core\0Harmony.dll</HintPath>
+    </Reference>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>..\..\..\..\OuterWilds Alpha 1_2\OuterWilds_Alpha_1_2_Data\Managed\Assembly-CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="BepInEx">
+      <HintPath>..\..\..\..\OuterWilds Alpha 1_2\BepInEx\core\BepInEx.dll</HintPath>
     </Reference>
     <Reference Include="CAMOWA, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\DIMOWA\Instalador\CAMOWA.dll</HintPath>
+      <HintPath>..\..\..\..\OuterWilds Alpha 1_2\BepInEx\plugins\Locochoco.CAMOWA\CAMOWA.dll</HintPath>
     </Reference>
-    <Reference Include="DIMOWAModLoader">
-      <HintPath>..\..\DIMOWA\Instalador\DIMOWAModLoader.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="UnityEngine">
       <HintPath>..\..\..\..\OuterWilds Alpha 1_2\OuterWilds_Alpha_1_2_Data\Managed\UnityEngine.dll</HintPath>
     </Reference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="grapleHookModel.obj">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <Content Include="Fuoooo.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="manifest.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>echo ‎
+echo         Transferring files to $(ProjectDir)$(ModName)‎
+md "$(ProjectDir)$(ModName)\"
+copy /y "$(ProjectDir)Fuoooo.wav" "$(ProjectDir)$(ModName)\"
+copy /y "$(ProjectDir)grapleHookModel.obj" "$(ProjectDir)$(ModName)\"
+copy /y "$(ProjectDir)manifest.json" "$(ProjectDir)$(ModName)\"
+copy /y "$(TargetPath)" "$(ProjectDir)$(ModName)\"
+del /q "$(ProjectDir)..\$(ModName).zip"
+powershell Compress-Archive "$(ProjectDir)$(ModName)" "$(ProjectDir)..\$(ModName).zip"
+rmdir /Q /S "$(ProjectDir)$(ModName)\"
+echo ‎‎</PostBuildEvent>
+  </PropertyGroup>
 </Project>
