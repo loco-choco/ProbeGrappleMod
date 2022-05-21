@@ -9,6 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>PGM</RootNamespace>
     <AssemblyName>ProbeGrapleMod</AssemblyName>
+    <ModName>Locochoco.ProbeGrapple</ModName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -70,4 +71,17 @@
     </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>echo ‎
+echo         Transferring files to $(ProjectDir)$(ModName)‎
+md "$(ProjectDir)$(ModName)\"
+copy /y "$(ProjectDir)Fuoooo.wav" "$(ProjectDir)$(ModName)\"
+copy /y "$(ProjectDir)grapleHookModel.obj" "$(ProjectDir)$(ModName)\"
+copy /y "$(ProjectDir)manifest.json" "$(ProjectDir)$(ModName)\"
+copy /y "$(TargetPath)" "$(ProjectDir)$(ModName)\"
+del /q "$(ProjectDir)..\$(ModName).zip"
+powershell Compress-Archive "$(ProjectDir)$(ModName)" "$(ProjectDir)..\$(ModName).zip"
+rmdir /Q /S "$(ProjectDir)$(ModName)\"
+echo ‎‎</PostBuildEvent>
+  </PropertyGroup>
 </Project>
